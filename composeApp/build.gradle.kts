@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -16,18 +17,54 @@ kotlin {
         }
     }
 
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "RssReader"
+            isStatic = true
+        }
+    }
+
+    jvm()
+
     sourceSets {
-        androidMain.dependencies {
-            implementation(projects.shared)
-            //Compose
+        commonMain.dependencies {
+            //CMP
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             //Compose Utils
             implementation(libs.coil.compose)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+            //Network
+            implementation(libs.ktor.core)
+            implementation(libs.ktor.logging)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.xml)
+            //Coroutines
+            implementation(libs.kotlinx.coroutines.core)
+            //Logger
+            implementation(libs.napier)
+            //JSON
+            implementation(libs.kotlinx.serialization.json)
+            //Key-Value storage
+            implementation(libs.multiplatform.settings)
+            // DI
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
+            //Navigation
+            implementation(libs.voyager.navigator)
+            //Date formatting
+            implementation(libs.kotlinx.datetime)
+        }
+        androidMain.dependencies {
+            //Compose Utils
             implementation(libs.activity.compose)
             implementation(libs.accompanist.swiperefresh)
             //Coroutines
@@ -36,15 +73,25 @@ kotlin {
             //DI
             implementation(libs.koin.core)
             implementation(libs.koin.android)
-            //Navigation
-            implementation(libs.voyager.navigator)
+
+            implementation(libs.ktor.client.android)
+
             //WorkManager
             implementation(libs.work.runtime.ktx)
             //Splash
             implementation(libs.androidx.core.splashscreen)
         }
+        iosMain.dependencies {
+            //Network
+            implementation(libs.ktor.client.ios)
+        }
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
+        }
     }
 }
+
 
 android {
     namespace = "com.github.jetbrains.rssreader"
@@ -99,3 +146,4 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
