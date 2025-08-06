@@ -15,20 +15,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import rssreader.composeapp.generated.resources.Res
 import rssreader.composeapp.generated.resources.all
 import rssreader.composeapp.generated.resources.ic_edit
-import com.github.jetbrains.rssreader.entity.Feed
+import com.github.jetbrains.rssreader.domain.RssFeed
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
-import androidx.compose.ui.text.intl.Locale
 
 @Composable
 fun FeedIcon(
-    feed: Feed?,
+    feed: RssFeed?,
     isSelected: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
@@ -55,7 +53,7 @@ fun FeedIcon(
                 color = MaterialTheme.colorScheme.onPrimary,
                 text = shortName
             )
-            feed?.imageUrl?.let { url ->
+            feed?.channel?.image?.url.let { url ->
                 Image(
                     painter = rememberAsyncImagePainter(url),
                     modifier = Modifier.fillMaxSize(),
@@ -66,11 +64,8 @@ fun FeedIcon(
     }
 }
 
-private fun Feed.shortName(): String =
-    title
-        .replace(" ", "")
-        .take(2)
-        .uppercase()
+private fun RssFeed.shortName(): String =
+    channel?.title?.replace(" ", "")?.take(2)?.uppercase() ?: ""
 
 @Composable
 fun EditIcon(

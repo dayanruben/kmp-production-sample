@@ -14,8 +14,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import coil3.compose.LocalPlatformContext
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
+import org.koin.compose.koinInject
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -26,6 +28,7 @@ class MainScreen : Screen, KoinComponent {
         val store: FeedStore by inject()
         val navigator = LocalNavigator.currentOrThrow
         val state by store.observeState().collectAsStateWithLifecycle()
+        val webLinks: WebLinks = koinInject<WebLinks>()
 
         LaunchedEffect(Unit) {
             store.dispatch(FeedAction.Refresh(false))
@@ -38,8 +41,7 @@ class MainScreen : Screen, KoinComponent {
                     store = store,
                     onPostClick = { post ->
                         post.link?.let { url ->
-                            TODO()
-                            //context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                            webLinks.openWebView(url)
                         }
                     },
                     onEditClick = {

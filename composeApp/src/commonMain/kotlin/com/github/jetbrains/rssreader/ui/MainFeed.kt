@@ -12,20 +12,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
-import com.github.jetbrains.rssreader.entity.Feed
-import com.github.jetbrains.rssreader.entity.Post
+import com.github.jetbrains.rssreader.domain.RssFeed
+import com.github.jetbrains.rssreader.domain.Item
 import kotlinx.coroutines.launch
 
 @Composable
 fun MainFeed(
     store: FeedStore,
-    onPostClick: (Post) -> Unit,
+    onPostClick: (Item) -> Unit,
     onEditClick: () -> Unit,
 ) {
     val state = store.observeState().collectAsState()
     val posts = remember(state.value.feeds, state.value.selectedFeed) {
-        (state.value.selectedFeed?.posts ?: state.value.feeds.flatMap { it.posts })
-            .sortedByDescending { it.date }
+        (state.value.selectedFeed?.channel?.item ?: state.value.feeds.flatMap { it.channel?.item ?: emptyList() })
+            .sortedByDescending { it.pubDate }
     }
     Column {
         val coroutineScope = rememberCoroutineScope()
@@ -54,15 +54,15 @@ fun MainFeed(
 
 private sealed class Icons {
     object All : Icons()
-    class FeedIcon(val feed: Feed) : Icons()
+    class FeedIcon(val feed: RssFeed) : Icons()
     object Edit : Icons()
 }
 
 @Composable
 fun MainFeedBottomBar(
-    feeds: List<Feed>,
-    selectedFeed: Feed?,
-    onFeedClick: (Feed?) -> Unit,
+    feeds: List<RssFeed>,
+    selectedFeed: RssFeed?,
+    onFeedClick: (RssFeed?) -> Unit,
     onEditClick: () -> Unit
 ) {
     val items = buildList {
@@ -81,11 +81,13 @@ fun MainFeedBottomBar(
                     isSelected = selectedFeed == null,
                     onClick = { onFeedClick(null) }
                 )
+
                 is Icons.FeedIcon -> FeedIcon(
                     feed = item.feed,
                     isSelected = selectedFeed == item.feed,
                     onClick = { onFeedClick(item.feed) }
                 )
+
                 is Icons.Edit -> EditIcon(onClick = onEditClick)
             }
             Spacer(modifier = Modifier.size(16.dp))

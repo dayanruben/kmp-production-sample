@@ -3,7 +3,7 @@ package com.github.jetbrains.rssreader.core
 import com.github.jetbrains.rssreader.Settings
 import com.github.jetbrains.rssreader.datasource.network.FeedLoader
 import com.github.jetbrains.rssreader.datasource.storage.FeedStorage
-import com.github.jetbrains.rssreader.entity.Feed
+import com.github.jetbrains.rssreader.domain.RssFeed
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -13,12 +13,12 @@ class RssReader(val feedLoader: FeedLoader, val feedStorage: FeedStorage, val se
     @Throws(Exception::class)
     suspend fun getAllFeeds(
         forceUpdate: Boolean = false
-    ): List<Feed> {
+    ): List<RssFeed> {
         var feeds = feedStorage.getAllFeeds()
 
         if (forceUpdate || feeds.isEmpty()) {
             val feedsUrls =
-                if (feeds.isEmpty()) settings.defaultFeedUrls else feeds.map { it.sourceUrl }
+                if (feeds.isEmpty()) settings.defaultFeedUrls else feeds.map { it.sourceUrl }.filterNotNull()
             feeds = feedsUrls.mapAsync { url ->
                 val new = feedLoader.getFeed(url, settings.isDefault(url))
                 feedStorage.saveFeed(new)

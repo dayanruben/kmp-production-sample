@@ -1,5 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -62,6 +63,8 @@ kotlin {
             implementation(libs.voyager.navigator)
             //Date formatting
             implementation(libs.kotlinx.datetime)
+            implementation(libs.serialization)
+            implementation(libs.core)
         }
         androidMain.dependencies {
             //Compose Utils
@@ -88,6 +91,7 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.client.java)
         }
     }
 }

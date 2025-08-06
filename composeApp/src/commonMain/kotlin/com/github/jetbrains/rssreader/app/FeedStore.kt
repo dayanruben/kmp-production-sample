@@ -1,7 +1,7 @@
 package com.github.jetbrains.rssreader.app
 
 import com.github.jetbrains.rssreader.core.RssReader
-import com.github.jetbrains.rssreader.entity.Feed
+import com.github.jetbrains.rssreader.domain.RssFeed
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,18 +13,18 @@ import kotlinx.coroutines.launch
 
 data class FeedState(
     val progress: Boolean,
-    val feeds: List<Feed>,
-    val selectedFeed: Feed? = null //null means selected all
+    val feeds: List<RssFeed>,
+    val selectedFeed: RssFeed? = null //null means selected all
 ) : State
 
-fun FeedState.mainFeedPosts() = (selectedFeed?.posts ?: feeds.flatMap { it.posts }).sortedByDescending { it.date }
+fun FeedState.mainFeedPosts() = (selectedFeed?.channel?.item ?: feeds.flatMap { it.channel?.item ?: emptyList() }).sortedByDescending { it.pubDate }
 
 sealed class FeedAction : Action {
     data class Refresh(val forceLoad: Boolean) : FeedAction()
     data class Add(val url: String) : FeedAction()
     data class Delete(val url: String) : FeedAction()
-    data class SelectFeed(val feed: Feed?) : FeedAction()
-    data class Data(val feeds: List<Feed>) : FeedAction()
+    data class SelectFeed(val feed: RssFeed?) : FeedAction()
+    data class Data(val feeds: List<RssFeed>) : FeedAction()
     data class Error(val error: kotlin.Exception) : FeedAction()
 }
 

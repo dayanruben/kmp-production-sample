@@ -11,14 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
-import com.github.jetbrains.rssreader.ui.AddFeedDialog
-import com.github.jetbrains.rssreader.ui.DeleteFeedDialog
-import com.github.jetbrains.rssreader.ui.FeedIcon
-import com.github.jetbrains.rssreader.entity.Feed
+import com.github.jetbrains.rssreader.domain.RssFeed
 import org.jetbrains.compose.resources.vectorResource
 import rssreader.composeapp.generated.resources.Res
 import rssreader.composeapp.generated.resources.ic_add
@@ -30,7 +26,7 @@ fun FeedList(store: FeedStore) {
     ) {
         val state = store.observeState().collectAsState()
         val showAddDialog = remember { mutableStateOf(false) }
-        val feedForDelete = remember<MutableState<Feed?>> { mutableStateOf(null) }
+        val feedForDelete = remember<MutableState<RssFeed?>> { mutableStateOf(null) }
         FeedItemList(feeds = state.value.feeds) {
             feedForDelete.value = it
         }
@@ -76,8 +72,8 @@ fun FeedList(store: FeedStore) {
 
 @Composable
 fun FeedItemList(
-    feeds: List<Feed>,
-    onClick: (Feed) -> Unit
+    feeds: List<RssFeed>,
+    onClick: (RssFeed) -> Unit
 ) {
     LazyColumn {
         itemsIndexed(feeds) { i, feed ->
@@ -89,7 +85,7 @@ fun FeedItemList(
 
 @Composable
 fun FeedItem(
-    feed: Feed,
+    feed: RssFeed,
     onClick: () -> Unit
 ) {
     Row(
@@ -100,14 +96,18 @@ fun FeedItem(
         FeedIcon(feed = feed)
         Spacer(modifier = Modifier.size(16.dp))
         Column {
-            Text(
-                style = MaterialTheme.typography.bodyMedium,
-                text = feed.title
-            )
-            Text(
-                style = MaterialTheme.typography.bodySmall,
-                text = feed.desc
-            )
+            if(feed.channel?.title != null) {
+                Text(
+                    style = MaterialTheme.typography.bodyMedium,
+                    text = feed.channel.title
+                )
+            }
+            if (feed.channel?.description != null) {
+                Text(
+                    style = MaterialTheme.typography.bodySmall,
+                    text = feed.channel.description
+                )
+            }
         }
     }
 }

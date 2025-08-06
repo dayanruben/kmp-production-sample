@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.github.jetbrains.rssreader.entity.Feed
+import com.github.jetbrains.rssreader.domain.RssFeed
 import org.jetbrains.compose.resources.stringResource
 import rssreader.composeapp.generated.resources.Res
 import rssreader.composeapp.generated.resources.rss_feed_url
@@ -58,7 +58,7 @@ fun AddFeedDialog(
 
 @Composable
 fun DeleteFeedDialog(
-    feed: Feed,
+    feed: RssFeed,
     onDelete: () -> Unit,
     onDismiss: () -> Unit
 ) = Dialog(

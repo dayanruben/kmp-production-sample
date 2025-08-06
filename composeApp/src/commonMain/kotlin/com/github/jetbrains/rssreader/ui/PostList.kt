@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,23 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
-import com.github.jetbrains.rssreader.entity.Post
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
-import kotlinx.datetime.UtcOffset
-import kotlinx.datetime.format
-import kotlinx.datetime.toLocalDateTime
+import com.github.jetbrains.rssreader.domain.Item
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.Instant
-import kotlinx.datetime.format.*
 
 @Composable
 fun PostList(
     modifier: Modifier,
-    posts: List<Post>,
+    posts: List<Item>,
     listState: LazyListState,
-    onClick: (Post) -> Unit
+    onClick: (Item) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -50,7 +42,7 @@ fun PostList(
 @OptIn(ExperimentalTime::class)
 @Composable
 fun PostItem(
-    item: Post,
+    item: Item,
     onClick: () -> Unit
 ) {
     val padding = 16.dp
@@ -62,12 +54,14 @@ fun PostItem(
                 modifier = Modifier.clickable(onClick = onClick)
             ) {
                 Spacer(modifier = Modifier.size(padding))
-                Text(
-                    modifier = Modifier.padding(start = padding, end = padding),
-                    style = MaterialTheme.typography.headlineSmall,
-                    text = item.title
-                )
-                item.imageUrl?.let { url ->
+                if(item.title != null) {
+                    Text(
+                        modifier = Modifier.padding(start = padding, end = padding),
+                        style = MaterialTheme.typography.headlineSmall,
+                        text = item.title
+                    )
+                }
+                item.mediaContent?.url?.let { url ->
                     Spacer(modifier = Modifier.size(padding))
                     Image(
                         painter = rememberAsyncImagePainter(url),
@@ -75,7 +69,7 @@ fun PostItem(
                         contentDescription = null
                     )
                 }
-                item.desc?.let { desc ->
+                item.description?.let { desc ->
                     Spacer(modifier = Modifier.size(padding))
                     Text(
                         modifier = Modifier.padding(start = padding, end = padding),
@@ -86,13 +80,15 @@ fun PostItem(
                     )
                 }
                 Spacer(modifier = Modifier.size(padding))
-                Text(
-                    modifier = Modifier.padding(start = padding, end = padding),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                    text = Instant.fromEpochMilliseconds(item.date).toString()
-                )
-                Spacer(modifier = Modifier.size(padding))
+                item.pubDate?.let {
+                    Text(
+                        modifier = Modifier.padding(start = padding, end = padding),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        text = item.pubDate
+                    )
+                    Spacer(modifier = Modifier.size(padding))
+                }
             }
         }
     }
