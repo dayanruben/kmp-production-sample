@@ -2,22 +2,28 @@ package com.github.jetbrains.rssreader.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.github.jetbrains.rssreader.Res
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
 import com.github.jetbrains.rssreader.app_name
 import com.github.jetbrains.rssreader.back_button
 import com.github.jetbrains.rssreader.feed_list
-import com.github.jetbrains.rssreader.Res
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 enum class Screens(val title: StringResource) {
     Main(Res.string.app_name), FeedList(Res.string.feed_list);

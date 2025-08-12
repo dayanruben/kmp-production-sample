@@ -8,7 +8,11 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
-class RssReader(val feedLoader: FeedLoader, val feedStorage: FeedStorage, val settings: Settings = Settings(setOf("https://blog.jetbrains.com/kotlin/feed/"))) {
+class RssReader(
+    private val feedLoader: FeedLoader,
+    private val feedStorage: FeedStorage,
+    private val settings: Settings = Settings(setOf("https://blog.jetbrains.com/kotlin/feed/"))
+) {
 
     @Throws(Exception::class)
     suspend fun getAllFeeds(

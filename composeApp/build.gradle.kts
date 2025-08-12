@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -21,6 +20,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            //Compose
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -32,16 +32,13 @@ kotlin {
             implementation(libs.coil.network.ktor3)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.koin.compose)
-            //Navigation
             implementation(libs.navigation.compose)
             implementation(libs.material.icons.core)
-
-            implementation(projects.shared)
+            //Key-value settings
             implementation(libs.multiplatform.settings)
-
             //JSON
             implementation(libs.kotlinx.serialization.json)
-
+            implementation(projects.shared)
         }
         androidMain.dependencies {
             //Compose Utils
@@ -53,14 +50,12 @@ kotlin {
             //DI
             implementation(libs.koin.core)
             implementation(libs.koin.android)
-
             //WorkManager
             implementation(libs.work.runtime.ktx)
             //Splash
             implementation(libs.androidx.core.splashscreen)
             //Logger
             implementation(libs.napier)
-
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)

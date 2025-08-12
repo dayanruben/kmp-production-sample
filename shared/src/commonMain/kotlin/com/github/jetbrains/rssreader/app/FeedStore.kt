@@ -25,11 +25,11 @@ sealed class FeedAction : Action {
     data class Delete(val url: String) : FeedAction()
     data class SelectFeed(val feed: RssFeed?) : FeedAction()
     data class Data(val feeds: List<RssFeed>) : FeedAction()
-    data class Error(val error: kotlin.Exception) : FeedAction()
+    data class Error(val error: Exception) : FeedAction()
 }
 
 sealed class FeedSideEffect : Effect {
-    data class Error(val error: kotlin.Exception) : FeedSideEffect()
+    data class Error(val error: Exception) : FeedSideEffect()
 }
 
 class FeedStore(
@@ -45,7 +45,7 @@ class FeedStore(
     override fun observeSideEffect(): Flow<FeedSideEffect> = sideEffect
 
     override fun dispatch(action: FeedAction) {
-        //Napier.d(tag = "FeedStore", message = "Action: $action")
+        Napier.d(tag = "FeedStore", message = "Action: $action")
         val oldState = state.value
 
         val newState = when (action) {
@@ -116,7 +116,7 @@ class FeedStore(
         try {
             val allFeeds = rssReader.getAllFeeds(forceLoad)
             dispatch(FeedAction.Data(allFeeds))
-        } catch (e: kotlin.Exception) {
+        } catch (e: Exception) {
             dispatch(FeedAction.Error(e))
         }
     }
@@ -126,7 +126,7 @@ class FeedStore(
             rssReader.addFeed(url)
             val allFeeds = rssReader.getAllFeeds(false)
             dispatch(FeedAction.Data(allFeeds))
-        } catch (e: kotlin.Exception) {
+        } catch (e: Exception) {
             dispatch(FeedAction.Error(e))
         }
     }
@@ -136,7 +136,7 @@ class FeedStore(
             rssReader.deleteFeed(url)
             val allFeeds = rssReader.getAllFeeds(false)
             dispatch(FeedAction.Data(allFeeds))
-        } catch (e: kotlin.Exception) {
+        } catch (e: Exception) {
             dispatch(FeedAction.Error(e))
         }
     }

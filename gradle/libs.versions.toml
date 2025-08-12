@@ -2,7 +2,7 @@
 agp = "8.10.1"
 coreSplashscreen = "1.0.1"
 kotlin = "2.2.0"
-dependencyUpdates = "0.51.0"
+dependencyUpdates = "0.52.0"
 kotlinx-serialization = "1.8.1"
 kotlinx-coroutines = "1.10.2"
 kotlinx-datetime = "0.6.2"
@@ -11,17 +11,14 @@ materialIconsCore = "1.7.3"
 napier = "2.7.1"
 multiplatform-settings = "1.3.0"
 navigationCompose = "2.9.0-beta04"
-rssparser = "6.0.12"
-serialization = "0.91.1"
-voyager = "1.0.0"
+xmlSerialization = "0.91.1"
 koin = "4.1.0"
 accompanist = "0.36.0"
 coil = "3.3.0"
 activity-compose = "1.10.1"
-work-runtime-ktx = "2.10.2"
+work-runtime-ktx = "2.10.3"
 compose-multiplatform = "1.8.2"
-androidx-lifecycle = "2.9.0"
-
+androidx-lifecycle = "2.9.1"
 android-compileSdk = "36"
 android-minSdk = "26"
 android-targetSdk = "36"
@@ -29,7 +26,7 @@ android-targetSdk = "36"
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
-core = { module = "io.github.pdvrieze.xmlutil:core", version.ref = "serialization" }
+xml-serialization-core = { module = "io.github.pdvrieze.xmlutil:core", version.ref = "xmlSerialization" }
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
@@ -44,8 +41,7 @@ ktor-client-ios = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" 
 ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
-serialization = { module = "io.github.pdvrieze.xmlutil:serialization", version.ref = "serialization" }
-voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+xml-serialization = { module = "io.github.pdvrieze.xmlutil:serialization", version.ref = "xmlSerialization" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }

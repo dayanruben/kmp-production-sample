@@ -19,11 +19,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.github.jetbrains.rssreader.Res
+import com.github.jetbrains.rssreader.all
 import com.github.jetbrains.rssreader.domain.RssFeed
+import com.github.jetbrains.rssreader.ic_edit
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
-import com.github.jetbrains.rssreader.all
-import com.github.jetbrains.rssreader.ic_edit
 
 @Composable
 fun FeedIcon(

@@ -1,11 +1,21 @@
 package com.github.jetbrains.rssreader
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -15,7 +25,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.github.jetbrains.rssreader.app.FeedSideEffect
 import com.github.jetbrains.rssreader.app.FeedStore
-import com.github.jetbrains.rssreader.ui.*
+import com.github.jetbrains.rssreader.ui.AppTheme
+import com.github.jetbrains.rssreader.ui.FeedListScreen
+import com.github.jetbrains.rssreader.ui.MainScreen
+import com.github.jetbrains.rssreader.ui.RssFeedAppBar
+import com.github.jetbrains.rssreader.ui.Screens
 import kotlinx.coroutines.flow.filterIsInstance
 import org.koin.compose.koinInject
 
@@ -30,8 +44,16 @@ fun RssReaderApp(navController: NavHostController = rememberNavController()) {
             backStackEntry?.destination?.route ?: Screens.Main.name
         )
         val snackbarHostState = remember { SnackbarHostState() }
+
         Scaffold(
             modifier = Modifier.fillMaxSize(),
+            topBar = {
+                RssFeedAppBar(
+                    currentScreen = currentScreen,
+                    canNavigateBack = navController.previousBackStackEntry != null,
+                    navigateUp = { navController.navigateUp() }
+                )
+            },
             snackbarHost = {
                 SnackbarHost(
                     modifier = Modifier.padding(
@@ -39,13 +61,6 @@ fun RssReaderApp(navController: NavHostController = rememberNavController()) {
                             .only(WindowInsetsSides.Bottom)
                             .asPaddingValues()
                     ), hostState = snackbarHostState
-                )
-            },
-            topBar = {
-                RssFeedAppBar(
-                    currentScreen = currentScreen,
-                    canNavigateBack = navController.previousBackStackEntry != null,
-                    navigateUp = { navController.navigateUp() }
                 )
             }
         ) { innerPadding ->

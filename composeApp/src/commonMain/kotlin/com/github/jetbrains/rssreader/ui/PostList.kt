@@ -5,7 +5,12 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.gestures.scrollBy
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -35,13 +40,13 @@ fun PostList(
     val coroutineScope = rememberCoroutineScope()
     LazyColumn(
         modifier = modifier.draggable(
-                orientation = Orientation.Vertical,
-                state = rememberDraggableState { delta ->
-                    coroutineScope.launch {
-                        listState.scrollBy(-delta)
-                    }
-                },
-            ),
+            orientation = Orientation.Vertical,
+            state = rememberDraggableState { delta ->
+                coroutineScope.launch {
+                    listState.scrollBy(-delta)
+                }
+            },
+        ),
         contentPadding = PaddingValues(16.dp),
         state = listState,
     ) {
@@ -60,14 +65,14 @@ fun PostItem(
 ) {
     val padding = 16.dp
     Box {
-        Card( //todo check elevation
+        Card(
             shape = RoundedCornerShape(padding)
         ) {
             Column(
                 modifier = Modifier.clickable(onClick = onClick)
             ) {
                 Spacer(modifier = Modifier.size(padding))
-                item.title?.let {title ->
+                item.title?.let { title ->
                     Text(
                         modifier = Modifier.padding(start = padding, end = padding),
                         style = MaterialTheme.typography.headlineSmall,

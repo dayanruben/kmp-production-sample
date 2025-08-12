@@ -2,9 +2,9 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.kotlin.multiplatform)
 }
 
 kotlin {
@@ -48,8 +48,10 @@ kotlin {
 
             //Date formatting
             implementation(libs.kotlinx.datetime)
-            implementation(libs.serialization)
-            implementation(libs.core)
+
+            //XML
+            implementation(libs.xml.serialization)
+            implementation(libs.xml.serialization.core)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
@@ -58,6 +60,7 @@ kotlin {
             implementation(libs.ktor.client.ios)
         }
         jvmMain.dependencies {
+            implementation(libs.ktor.client.java)
         }
     }
 }

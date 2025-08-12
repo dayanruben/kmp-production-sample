@@ -15,24 +15,26 @@ import platform.Foundation.NSUserDefaults
 
 private val appModule = module {
     single { RssReader(get(), get(), Settings(setOf("https://blog.jetbrains.com/kotlin/feed/"))) }
-    single<FeedStorage> { FeedStorage(
-        NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults()),
-        Json {
-            ignoreUnknownKeys = true
-            isLenient = true
-            encodeDefaults = false
-        }
-    ) }
+    single<FeedStorage> {
+        FeedStorage(
+            NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults()),
+            Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+                encodeDefaults = false
+            }
+        )
+    }
     single { FeedStore(get()) }
     single { FeedLoader(get()) }
-    single { IosHttpClient(false) } // Use BuildKonfig?
+    single { IosHttpClient(false) }
 }
 
-class KoinHelper: KoinComponent {
+class KoinHelper : KoinComponent {
     val rssReader by inject<RssReader>()
     val feedStore by inject<FeedStore>()
 }
 
 fun initKoin() {
-    startKoin { modules(appModule)}
+    startKoin { modules(appModule) }
 }
