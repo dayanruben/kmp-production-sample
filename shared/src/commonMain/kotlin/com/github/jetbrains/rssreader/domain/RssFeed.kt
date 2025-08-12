@@ -50,11 +50,18 @@ data class Item(
         "content"
     ) @XmlElement val contentEncoded: String?,
     @XmlSerialName(
-        "content",
+        "enclosure",
         "http://search.yahoo.com/mrss/",
         "media"
     ) @XmlElement val mediaContent: MediaContent? = null
 )
+
+fun Item.getImageUrl(): String? {
+    return mediaContent?.url ?: contentEncoded?.let { content ->
+        val imgRegex = "<img[^>]+src=\"([^\"]+)\"".toRegex()
+        return imgRegex.find(content)?.groupValues?.get(1)
+    }
+}
 
 @Serializable
 data class MediaContent(

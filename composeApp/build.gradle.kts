@@ -1,6 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -18,22 +17,10 @@ kotlin {
         }
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "RssReader"
-            isStatic = true
-        }
-    }
-
     jvm()
 
     sourceSets {
         commonMain.dependencies {
-            //CMP
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -42,29 +29,19 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             //Compose Utils
             implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            //Network
-            implementation(libs.ktor.core)
-            implementation(libs.ktor.logging)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.xml)
-            //Coroutines
-            implementation(libs.kotlinx.coroutines.core)
-            //Logger
-            implementation(libs.napier)
-            //JSON
-            implementation(libs.kotlinx.serialization.json)
-            //Key-Value storage
-            implementation(libs.multiplatform.settings)
-            // DI
-            api(libs.koin.core)
             implementation(libs.koin.compose)
             //Navigation
-            implementation(libs.voyager.navigator)
-            //Date formatting
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.serialization)
-            implementation(libs.core)
+            implementation(libs.navigation.compose)
+            implementation(libs.material.icons.core)
+
+            implementation(projects.shared)
+            implementation(libs.multiplatform.settings)
+
+            //JSON
+            implementation(libs.kotlinx.serialization.json)
+
         }
         androidMain.dependencies {
             //Compose Utils
@@ -77,16 +54,13 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.android)
 
-            implementation(libs.ktor.client.android)
-
             //WorkManager
             implementation(libs.work.runtime.ktx)
             //Splash
             implementation(libs.androidx.core.splashscreen)
-        }
-        iosMain.dependencies {
-            //Network
-            implementation(libs.ktor.client.ios)
+            //Logger
+            implementation(libs.napier)
+
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -95,7 +69,6 @@ kotlin {
         }
     }
 }
-
 
 android {
     namespace = "com.github.jetbrains.rssreader"
@@ -149,5 +122,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+}
+
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.github.jetbrains.rssreader"
+    generateResClass = auto
 }
 

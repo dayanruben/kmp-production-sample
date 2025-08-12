@@ -12,12 +12,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.github.jetbrains.rssreader.Res
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.jetbrains.rssreader.domain.RssFeed
 import org.jetbrains.compose.resources.vectorResource
-import rssreader.composeapp.generated.resources.Res
-import rssreader.composeapp.generated.resources.ic_add
+import com.github.jetbrains.rssreader.add
+import com.github.jetbrains.rssreader.ic_add
 
 @Composable
 fun FeedList(store: FeedStore) {
@@ -96,16 +97,16 @@ fun FeedItem(
         FeedIcon(feed = feed)
         Spacer(modifier = Modifier.size(16.dp))
         Column {
-            if(feed.channel?.title != null) {
+            feed.channel?.title?.let { title ->
                 Text(
                     style = MaterialTheme.typography.bodyMedium,
-                    text = feed.channel.title
+                    text = title
                 )
             }
-            if (feed.channel?.description != null) {
+            feed.channel?.description?.let { description ->
                 Text(
                     style = MaterialTheme.typography.bodySmall,
-                    text = feed.channel.description
+                    text = description
                 )
             }
         }

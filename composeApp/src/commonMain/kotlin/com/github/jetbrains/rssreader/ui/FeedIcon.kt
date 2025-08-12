@@ -15,14 +15,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil3.compose.rememberAsyncImagePainter
-import rssreader.composeapp.generated.resources.Res
-import rssreader.composeapp.generated.resources.all
-import rssreader.composeapp.generated.resources.ic_edit
+import coil3.compose.AsyncImage
+import com.github.jetbrains.rssreader.Res
 import com.github.jetbrains.rssreader.domain.RssFeed
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
+import com.github.jetbrains.rssreader.all
+import com.github.jetbrains.rssreader.ic_edit
 
 @Composable
 fun FeedIcon(
@@ -48,18 +49,20 @@ fun FeedIcon(
                 .background(color = MaterialTheme.colorScheme.primary)
                 .clickable(enabled = onClick != null, onClick = onClick ?: {})
         ) {
+
+            feed?.channel?.image?.url?.let { url ->
+                AsyncImage(
+                    model = url,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
             Text(
                 modifier = Modifier.align(Alignment.Center),
                 color = MaterialTheme.colorScheme.onPrimary,
                 text = shortName
             )
-            feed?.channel?.image?.url.let { url ->
-                Image(
-                    painter = rememberAsyncImagePainter(url),
-                    modifier = Modifier.fillMaxSize(),
-                    contentDescription = null
-                )
-            }
         }
     }
 }

@@ -9,15 +9,11 @@ import com.github.jetbrains.rssreader.datasource.network.FeedLoader
 import com.github.jetbrains.rssreader.datasource.storage.FeedStorage
 import com.github.jetbrains.rssreader.ui.JvmWebLinks
 import com.github.jetbrains.rssreader.ui.WebLinks
-import com.russhwolf.settings.PreferencesSettings
 import com.russhwolf.settings.PropertiesSettings
 import kotlinx.serialization.json.Json
-import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
 import org.koin.dsl.module
 import java.util.Properties
-import java.util.prefs.Preferences
 
 private val appModule = module {
     single { RssReader(get(), get(), Settings(setOf("https://blog.jetbrains.com/kotlin/feed/"))) }

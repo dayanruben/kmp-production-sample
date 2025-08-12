@@ -9,14 +9,15 @@
 import SwiftUI
 import RssReader
 import URLImage
+import Foundation
 
 struct FeedRow: View {
     let feed: RssFeed
-    
+
     private enum Constants {
         static let imageWidth: CGFloat = 20.0
     }
-    
+
     var body: some View {
         HStack {
             if let channel = feed.channel {
@@ -25,7 +26,7 @@ struct FeedRow: View {
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-        
+
                     }
                     .frame(width: Constants.imageWidth, height: Constants.imageWidth)
                     .clipped()
@@ -33,17 +34,14 @@ struct FeedRow: View {
                 }
                 VStack(alignment: .leading, spacing: 5.0) {
                     if let title = channel.title {
-                        Text(title).bold().font(.title3).lineLimit(1)
+                        Text(title.decodeHtmlEntities()).bold().font(.title3).lineLimit(1)
                     }
                     if let descr = channel.description_ {
-                        Text(descr).font(.body)
+                        Text(descr.decodeHtmlEntities()).font(.body)
                     }
                 }
             }
-            
+
         }
     }
 }
-
-
-

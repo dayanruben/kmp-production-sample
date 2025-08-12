@@ -1,14 +1,12 @@
 package com.github.jetbrains.rssreader
 
 import com.github.jetbrains.rssreader.app.FeedStore
-import com.github.jetbrains.rssreader.core.HttpClient
 import com.github.jetbrains.rssreader.core.IosHttpClient
 import com.github.jetbrains.rssreader.core.RssReader
 import com.github.jetbrains.rssreader.datasource.network.FeedLoader
 import com.github.jetbrains.rssreader.datasource.storage.FeedStorage
 import com.russhwolf.settings.NSUserDefaultsSettings
 import kotlinx.serialization.json.Json
-import org.koin.compose.koinInject
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.context.startKoin

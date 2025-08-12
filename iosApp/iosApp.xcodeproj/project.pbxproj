@@ -17,6 +17,7 @@
 		2183D2A3254B75F70021EE82 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2183D2A2254B75F70021EE82 /* URLImage */; };
 		21B3FCA5255ED8360033CEFD /* RSSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B3FCA4255ED8360033CEFD /* RSSApp.swift */; };
 		21B9594E26BC4C57000C5150 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 21B9594D26BC4C57000C5150 /* Introspect */; };
+		66CCFD062E437B1500D40EEF /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CCFD052E437B1500D40EEF /* StringExtensions.swift */; };
 		7555FF85242A565B00829871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF84242A565B00829871 /* Assets.xcassets */; };
 		7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF87242A565B00829871 /* Preview Assets.xcassets */; };
 		7555FF8B242A565B00829871 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF89242A565B00829871 /* LaunchScreen.storyboard */; };
@@ -50,6 +51,7 @@
 		214764BF25DACE94002AEE9C /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		2183D290254585BD0021EE82 /* PostRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRow.swift; sourceTree = "<group>"; };
 		21B3FCA4255ED8360033CEFD /* RSSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSApp.swift; sourceTree = "<group>"; };
+		66CCFD052E437B1500D40EEF /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF84242A565B00829871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7555FF87242A565B00829871 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				2183D290254585BD0021EE82 /* PostRow.swift */,
 				210DA2CC255C256D00897854 /* FeedsList.swift */,
 				210DA2D0255C26C400897854 /* FeedRow.swift */,
+				66CCFD052E437B1500D40EEF /* StringExtensions.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -186,7 +189,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "iosApp" */;
 			buildPhases = (
-				7555FFB5242A651A00829871 /* ShellScript */,
+				7555FFB5242A651A00829871 /* Run Script */,
 				7555FF77242A565900829871 /* Sources */,
 				7555FF78242A565900829871 /* Frameworks */,
 				7555FF79242A565900829871 /* Resources */,
@@ -315,7 +318,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7555FFB5242A651A00829871 /* ShellScript */ = {
+		7555FFB5242A651A00829871 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -324,13 +327,14 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -342,6 +346,7 @@
 				210DA2BC255C229400897854 /* MainFeedView.swift in Sources */,
 				210DA2D1255C26C400897854 /* FeedRow.swift in Sources */,
 				21B3FCA5255ED8360033CEFD /* RSSApp.swift in Sources */,
+				66CCFD062E437B1500D40EEF /* StringExtensions.swift in Sources */,
 				2147648C25D553B5002AEE9C /* RootView.swift in Sources */,
 				2183D291254585BD0021EE82 /* PostRow.swift in Sources */,
 				214764C025DACE94002AEE9C /* AlertView.swift in Sources */,
@@ -515,6 +520,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
+				DEVELOPMENT_TEAM = "${TEAM_ID}";
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = iosApp/Info.plist;

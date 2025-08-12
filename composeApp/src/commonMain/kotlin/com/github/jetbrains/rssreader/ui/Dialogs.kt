@@ -15,12 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.github.jetbrains.rssreader.Res
 import com.github.jetbrains.rssreader.domain.RssFeed
+import com.github.jetbrains.rssreader.rss_feed_url
+import com.github.jetbrains.rssreader.add
+import com.github.jetbrains.rssreader.remove
 import org.jetbrains.compose.resources.stringResource
-import rssreader.composeapp.generated.resources.Res
-import rssreader.composeapp.generated.resources.rss_feed_url
-import rssreader.composeapp.generated.resources.add
-import rssreader.composeapp.generated.resources.remove
 
 @Composable
 fun AddFeedDialog(

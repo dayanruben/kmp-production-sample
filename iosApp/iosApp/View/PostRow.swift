@@ -9,10 +9,11 @@
 import SwiftUI
 import RssReader
 import URLImage
+import Foundation
 
 struct PostRow: View {
     let post: Item
-    
+
     var body: some View {
         if let postURL = post.link, let url = URL(string: postURL) {
             Link(destination: url) {
@@ -23,13 +24,13 @@ struct PostRow: View {
             content
         }
     }
-    
+
     var content: some View {
         VStack(alignment: .leading, spacing: 10.0) {
             if let title = post.title {
-                Text(title).bold().font(.title3)
+                Text(title.decodeHtmlEntities()).bold().font(.title3)
             }
-            if let imageUrl = post.mediaContent?.url, let url = URL(string: imageUrl) {
+            if let imageUrl = post.getImageUrl(), let url = URL(string: imageUrl) {
                 URLImage(url: url) { image in
                     image
                         .resizable()
@@ -39,12 +40,12 @@ struct PostRow: View {
                 .clipped()
             }
             if let descr = post.description_ {
-                Text(descr).font(.body).lineLimit(5)
+                Text(descr.decodeHtmlEntities()).font(.body).lineLimit(15)
             }
             HStack{
                 Spacer()
                 if let dateString = post.pubDate {
-                    Text(Item.dateFormatter.string(from: Date(from: dateString))).font(.footnote).foregroundColor(.gray)
+                    Text(dateString).font(.footnote).foregroundColor(.gray)
                 }
             }
         }
@@ -57,7 +58,7 @@ extension Item {
         formatter.dateFormat = "E, MMM d HH:mm"
         return formatter
     }()
-    
+
     var linkURL: URL? {
         if let link = link {
             return URL(string: link)
@@ -66,4 +67,3 @@ extension Item {
         }
     }
 }
-

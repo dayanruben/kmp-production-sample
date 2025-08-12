@@ -9,7 +9,7 @@ pluginManagement {
         mavenCentral()
     }
     plugins {
-        kotlin("jvm") version "2.0.21"
+        kotlin("jvm") version "2.2.0"
     }
 }
 plugins {
@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":shared")

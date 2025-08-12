@@ -45,7 +45,7 @@ class FeedStore(
     override fun observeSideEffect(): Flow<FeedSideEffect> = sideEffect
 
     override fun dispatch(action: FeedAction) {
-        Napier.d(tag = "FeedStore", message = "Action: $action")
+        //Napier.d(tag = "FeedStore", message = "Action: $action")
         val oldState = state.value
 
         val newState = when (action) {

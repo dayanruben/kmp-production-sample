@@ -14,6 +14,9 @@ class FeedLoader(
     private val httpClient: HttpClient
 ) {
     suspend fun getFeed(url: String, isDefault: Boolean): RssFeed {
+        println("getFeed")
+        println(httpClient.get(Url(url)).body<String>())
+        println("getFeed end")
         val feed = httpClient.get(url = Url(url)).body<RssFeed>()
         feed.isDefault = isDefault
         feed.sourceUrl = url
