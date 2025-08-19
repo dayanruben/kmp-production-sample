@@ -3,10 +3,8 @@ package com.github.jetbrains.rssreader
 import android.app.Application
 import android.content.Context
 import com.github.jetbrains.rssreader.app.FeedStore
-import com.github.jetbrains.rssreader.core.createAndroid
+import com.github.jetbrains.rssreader.core.buildRssReader
 import com.github.jetbrains.rssreader.sync.RefreshWorker
-import com.github.jetbrains.rssreader.ui.AndroidWebLinks
-import com.github.jetbrains.rssreader.ui.WebLinks
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -22,9 +20,8 @@ class App : Application() {
     }
 
     private val appModule = module {
-        single { createAndroid(get<Context>(), BuildConfig.DEBUG) }
+        single { buildRssReader(get<Context>(), BuildConfig.DEBUG) }
         single { FeedStore(get()) }
-        single<WebLinks> { AndroidWebLinks(androidContext()) }
     }
 
     private fun initKoin() {

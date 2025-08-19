@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -12,13 +14,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.github.jetbrains.rssreader.Res
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.jetbrains.rssreader.domain.RssFeed
-import org.jetbrains.compose.resources.vectorResource
-import com.github.jetbrains.rssreader.add
-import com.github.jetbrains.rssreader.ic_add
 
 @Composable
 fun FeedList(store: FeedStore) {
@@ -40,7 +38,7 @@ fun FeedList(store: FeedStore) {
             onClick = { showAddDialog.value = true }
         ) {
             Image(
-                imageVector = vectorResource(Res.drawable.ic_add),
+                imageVector = Icons.Default.Add,
                 modifier = Modifier.align(Alignment.Center),
                 contentDescription = null
             )

@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,9 +23,7 @@ import coil3.compose.AsyncImage
 import com.github.jetbrains.rssreader.Res
 import com.github.jetbrains.rssreader.all
 import com.github.jetbrains.rssreader.domain.RssFeed
-import com.github.jetbrains.rssreader.ic_edit
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun FeedIcon(
@@ -82,7 +82,7 @@ fun EditIcon(
             .clickable(onClick = onClick)
     ) {
         Image(
-            imageVector = vectorResource(Res.drawable.ic_edit),
+            imageVector = Icons.Default.Edit,
             modifier = Modifier.align(Alignment.Center),
             contentDescription = null
         )

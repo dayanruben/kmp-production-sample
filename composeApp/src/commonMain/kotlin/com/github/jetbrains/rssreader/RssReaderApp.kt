@@ -29,7 +29,7 @@ import com.github.jetbrains.rssreader.ui.AppTheme
 import com.github.jetbrains.rssreader.ui.FeedListScreen
 import com.github.jetbrains.rssreader.ui.MainScreen
 import com.github.jetbrains.rssreader.ui.RssFeedAppBar
-import com.github.jetbrains.rssreader.ui.Screens
+import com.github.jetbrains.rssreader.ui.Screen
 import kotlinx.coroutines.flow.filterIsInstance
 import org.koin.compose.koinInject
 
@@ -40,8 +40,8 @@ fun RssReaderApp(navController: NavHostController = rememberNavController()) {
         // Get current back stack entry
         val backStackEntry by navController.currentBackStackEntryAsState()
         // Get the name of the current screen
-        val currentScreen = Screens.valueOf(
-            backStackEntry?.destination?.route ?: Screens.Main.name
+        val currentScreen = Screen.valueOf(
+            backStackEntry?.destination?.route ?: Screen.Main.name
         )
         val snackbarHostState = remember { SnackbarHostState() }
 
@@ -66,20 +66,20 @@ fun RssReaderApp(navController: NavHostController = rememberNavController()) {
         ) { innerPadding ->
             NavHost(
                 navController = navController,
-                startDestination = Screens.Main.name,
+                startDestination = Screen.Main.name,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                composable(route = Screens.Main.name) {
+                composable(route = Screen.Main.name) {
                     MainScreen(
-                        onEditClick = { navController.navigate(Screens.FeedList.name) },
+                        onEditClick = { navController.navigate(Screen.FeedList.name) },
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(16.dp)
                     )
                 }
-                composable(route = Screens.FeedList.name) {
+                composable(route = Screen.FeedList.name) {
                     FeedListScreen()
                 }
             }

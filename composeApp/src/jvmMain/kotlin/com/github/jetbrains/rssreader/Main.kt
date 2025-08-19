@@ -7,28 +7,27 @@ import com.github.jetbrains.rssreader.core.HttpClient
 import com.github.jetbrains.rssreader.core.RssReader
 import com.github.jetbrains.rssreader.datasource.network.FeedLoader
 import com.github.jetbrains.rssreader.datasource.storage.FeedStorage
-import com.github.jetbrains.rssreader.ui.JvmWebLinks
-import com.github.jetbrains.rssreader.ui.WebLinks
 import com.russhwolf.settings.PropertiesSettings
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
-import java.util.Properties
+import java.util.*
 
 private val appModule = module {
     single { RssReader(get(), get(), Settings(setOf("https://blog.jetbrains.com/kotlin/feed/"))) }
-    single<FeedStorage> { FeedStorage(
-        PropertiesSettings(Properties()),
-        Json {
-            ignoreUnknownKeys = true
-            isLenient = true
-            encodeDefaults = false
-        }
-    ) }
+    single<FeedStorage> {
+        FeedStorage(
+            PropertiesSettings(Properties()),
+            Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+                encodeDefaults = false
+            }
+        )
+    }
     single { FeedStore(get()) }
     single { FeedLoader(get()) }
     single { HttpClient(false) }
-    single<WebLinks> { JvmWebLinks() }
 }
 
 private fun initKoin() {

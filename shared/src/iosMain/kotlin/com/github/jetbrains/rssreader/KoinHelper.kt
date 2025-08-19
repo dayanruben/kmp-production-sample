@@ -1,7 +1,7 @@
 package com.github.jetbrains.rssreader
 
 import com.github.jetbrains.rssreader.app.FeedStore
-import com.github.jetbrains.rssreader.core.IosHttpClient
+import com.github.jetbrains.rssreader.core.HttpClient
 import com.github.jetbrains.rssreader.core.RssReader
 import com.github.jetbrains.rssreader.datasource.network.FeedLoader
 import com.github.jetbrains.rssreader.datasource.storage.FeedStorage
@@ -27,7 +27,7 @@ private val appModule = module {
     }
     single { FeedStore(get()) }
     single { FeedLoader(get()) }
-    single { IosHttpClient(false) }
+    single { HttpClient(false) }
 }
 
 class KoinHelper : KoinComponent {

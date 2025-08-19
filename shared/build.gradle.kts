@@ -54,13 +54,13 @@ kotlin {
             implementation(libs.xml.serialization.core)
         }
         androidMain.dependencies {
-            implementation(libs.ktor.client.android)
+            implementation(libs.ktor.client.okhttp)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.ios)
         }
         jvmMain.dependencies {
-            implementation(libs.ktor.client.java)
+            implementation(libs.ktor.client.okhttp)
         }
     }
 }

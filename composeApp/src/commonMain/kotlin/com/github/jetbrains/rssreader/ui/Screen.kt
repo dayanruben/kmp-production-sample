@@ -24,15 +24,16 @@ import com.github.jetbrains.rssreader.feed_list
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import androidx.compose.ui.platform.LocalUriHandler
 
-enum class Screens(val title: StringResource) {
+enum class Screen(val title: StringResource) {
     Main(Res.string.app_name), FeedList(Res.string.feed_list);
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RssFeedAppBar(
-    currentScreen: Screens,
+    currentScreen: Screen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier
@@ -64,8 +65,7 @@ fun MainScreen(
 ) {
     val store: FeedStore = koinInject<FeedStore>()
     val state by store.observeState().collectAsStateWithLifecycle()
-    val webLinks: WebLinks = koinInject<WebLinks>()
-
+    val uriHandler = LocalUriHandler.current
     LaunchedEffect(Unit) {
         store.dispatch(FeedAction.Refresh(false))
     }
@@ -78,7 +78,7 @@ fun MainScreen(
                 store = store,
                 onPostClick = { post ->
                     post.link?.let { url ->
-                        webLinks.openWebView(url)
+                        uriHandler.openUri(url)
                     }
                 },
                 onEditClick = onEditClick
