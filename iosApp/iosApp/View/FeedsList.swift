@@ -12,8 +12,8 @@ import RssReader
 struct FeedsList: ConnectedView {
     
     struct Props {
-        let defaultFeeds: [Feed]
-        let userFeeds: [Feed]
+        let defaultFeeds: [RssFeed]
+        let userFeeds: [RssFeed]
         let onAdd: (String) -> ()
         let onRemove: (String) -> ()
     }
@@ -53,5 +53,5 @@ struct FeedsList: ConnectedView {
     }
 }
 
-extension Feed: Identifiable { }
+extension RssFeed: Identifiable { }
 

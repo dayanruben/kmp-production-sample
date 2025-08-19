@@ -14,23 +14,27 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-
+    
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
             baseName = "RssReader"
             isStatic = true
         }
     }
 
+    jvm()
+    
     sourceSets {
         commonMain.dependencies {
             //Network
             implementation(libs.ktor.core)
             implementation(libs.ktor.logging)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.xml)
             //Coroutines
             implementation(libs.kotlinx.coroutines.core)
             //Logger
@@ -41,22 +45,28 @@ kotlin {
             implementation(libs.multiplatform.settings)
             // DI
             api(libs.koin.core)
-        }
 
+            //Date formatting
+            implementation(libs.kotlinx.datetime)
+
+            //XML
+            implementation(libs.xml.serialization)
+            implementation(libs.xml.serialization.core)
+        }
         androidMain.dependencies {
-            //Network
             implementation(libs.ktor.client.okhttp)
         }
-
         iosMain.dependencies {
-            //Network
             implementation(libs.ktor.client.ios)
+        }
+        jvmMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
         }
     }
 }
 
 android {
-    namespace = "org.example.project.shared"
+    namespace = "com.github.jetbrains.rssreader"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -66,4 +76,3 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
 }
-

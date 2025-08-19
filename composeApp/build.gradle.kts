@@ -16,18 +16,32 @@ kotlin {
         }
     }
 
+    jvm()
+
     sourceSets {
-        androidMain.dependencies {
-            implementation(projects.shared)
+        commonMain.dependencies {
             //Compose
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             //Compose Utils
             implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.koin.compose)
+            implementation(libs.navigation.compose)
+            implementation(libs.material.icons.core)
+            //Key-value settings
+            implementation(libs.multiplatform.settings)
+            //JSON
+            implementation(libs.kotlinx.serialization.json)
+            implementation(projects.shared)
+        }
+        androidMain.dependencies {
+            //Compose Utils
             implementation(libs.activity.compose)
             implementation(libs.accompanist.swiperefresh)
             //Coroutines
@@ -36,12 +50,16 @@ kotlin {
             //DI
             implementation(libs.koin.core)
             implementation(libs.koin.android)
-            //Navigation
-            implementation(libs.voyager.navigator)
             //WorkManager
             implementation(libs.work.runtime.ktx)
             //Splash
             implementation(libs.androidx.core.splashscreen)
+            //Logger
+            implementation(libs.napier)
+        }
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }
@@ -99,3 +117,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.github.jetbrains.rssreader"
+    generateResClass = auto
+}
+

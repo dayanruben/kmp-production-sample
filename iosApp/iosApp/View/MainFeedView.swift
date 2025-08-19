@@ -6,22 +6,22 @@ struct MainFeedView: ConnectedView {
     
     struct Props {
         let loading: Bool
-        let items: [Post]
+        let items: [Item]
         let feedOptions: [FeedPickerOption]
         let selectedFeedOption: FeedPickerOption
         
         let onReloadFeed: (Bool) -> Void
-        let onSelectFeed: (Feed?) -> Void
+        let onSelectFeed: (RssFeed?) -> Void
     }
     
     enum FeedPickerOption: Hashable {
-        case all, feed(Feed)
+        case all, feed(RssFeed)
         
         var title: String {
-            return String((self.feed?.title ?? "All").prefix(20))
+            return String((self.feed?.channel?.title ?? "All").prefix(20))
         }
         
-        var feed: Feed? {
+        var feed: RssFeed? {
             switch self {
             case .all:
                 return nil
@@ -103,7 +103,7 @@ struct MainFeedView: ConnectedView {
         return Picker("", selection: binding) {
             ForEach(props.feedOptions, id: \.self) { option in
                 HStack {
-                    if let imageUrl = option.feed?.imageUrl, let url = URL(string: imageUrl) {
+                    if let imageUrl = option.feed?.channel?.image?.url, let url = URL(string: imageUrl) {
                         
                         URLImage(url: url) { image in
                             image
@@ -140,4 +140,4 @@ struct MainFeedView: ConnectedView {
     
 }
 
-extension Post: Identifiable { }
+extension Item: Identifiable { }

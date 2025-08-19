@@ -16,8 +16,10 @@ struct RSSApp: App {
     let store: ObservableFeedStore
     
     init() {
-        rss = RssReader.Companion().create(withLog: true)
-        store = ObservableFeedStore(store: FeedStore(rssReader: rss))
+        KoinHelperKt.doInitKoin()
+        let helper = KoinHelper()
+        rss = helper.rssReader
+        store = ObservableFeedStore(store: helper.feedStore)
     }
   
     var body: some Scene {

@@ -9,13 +9,14 @@
 import SwiftUI
 import RssReader
 import URLImage
+import Foundation
 
 struct PostRow: View {
-    let post: Post
-    
+    let post: Item
+
     var body: some View {
-        if let postURL = post.linkURL {
-            Link(destination: postURL) {
+        if let postURL = post.link, let url = URL(string: postURL) {
+            Link(destination: url) {
                 content
             }
             .foregroundColor(.black)
@@ -23,11 +24,13 @@ struct PostRow: View {
             content
         }
     }
-    
+
     var content: some View {
         VStack(alignment: .leading, spacing: 10.0) {
-            Text(post.title).bold().font(.title3)
-            if let imageUrl = post.imageUrl, let url = URL(string: imageUrl) {
+            if let title = post.title {
+                Text(title.decodeHtmlEntities()).bold().font(.title3)
+            }
+            if let imageUrl = post.getImageUrl(), let url = URL(string: imageUrl) {
                 URLImage(url: url) { image in
                     image
                         .resizable()
@@ -36,26 +39,26 @@ struct PostRow: View {
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .clipped()
             }
-            Text(post.desc ?? "").font(.body)
+            if let descr = post.description_ {
+                Text(descr.decodeHtmlEntities()).font(.body).lineLimit(15)
+            }
             HStack{
                 Spacer()
-                Text(post.dateString).font(.footnote).foregroundColor(.gray)
+                if let dateString = post.pubDate {
+                    Text(dateString).font(.footnote).foregroundColor(.gray)
+                }
             }
         }
     }
 }
 
-extension Post {
+extension Item {
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "E, MMM d HH:mm"
         return formatter
     }()
-    
-    var dateString: String {
-        return Post.dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(date)))
-    }
-    
+
     var linkURL: URL? {
         if let link = link {
             return URL(string: link)
@@ -64,4 +67,3 @@ extension Post {
         }
     }
 }
-
